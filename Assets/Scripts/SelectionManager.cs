@@ -6,6 +6,7 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] GameObject interactableText;
     TMP_Text interactionText;
 
+
     private void Start()
     {
         interactionText = interactableText.GetComponent<TMP_Text>();
@@ -30,6 +31,16 @@ public class SelectionManager : MonoBehaviour
             else
             {
                 interactableText.SetActive(false);
+            }
+
+            if (Input.GetMouseButtonDown(0) && selectionTransform.CompareTag("Collectable") && !InventorySystem.Instance.CheckIfFull())
+            {
+                string pickedItemName = selectedInteractable.GetItemName();
+                pickedItemName += "_Inv"; 
+                InventorySystem.Instance.AddToInventory(pickedItemName);
+                Destroy(selectedInteractable.gameObject);
+
+                Debug.Log(pickedItemName + " Picked up");
             }
         }
         else
